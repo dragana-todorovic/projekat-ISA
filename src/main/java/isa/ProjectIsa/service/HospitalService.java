@@ -1,5 +1,6 @@
 package isa.ProjectIsa.service;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -10,4 +11,5 @@ public interface HospitalService {
 	Hospital findById(UUID id);
 
 	Collection<Hospital> findAll();
+	void whenDownloadFileUsingSshj_thenSuccess() throws IOException ;
 }

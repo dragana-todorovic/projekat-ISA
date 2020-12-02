@@ -4,6 +4,7 @@ import java.util.Collection;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,15 +23,15 @@ import isa.ProjectIsa.service.HospitalService;
  * (kontrolera) gde se zahtevi za pojedinim resursima mogu grupisati prema
  * klasama.
  */
-@RequestMapping("/greetings")
+@RequestMapping("")
 public class HospitalController {
 	@Autowired
 	private HospitalService hospitalService;
 	
 	@GetMapping
 	public ModelAndView getGreetings() {
-		Collection<Hospital> greetings = hospitalService.findAll();
-		return new ModelAndView("listGreetings", "greetings", greetings);
+		Collection<Hospital> apiKeys = hospitalService.findAll();
+		return new ModelAndView("apiKeys", "", apiKeys);
 	}
 	
 	@PostMapping(value = "/create")
@@ -42,7 +43,15 @@ public class HospitalController {
 		System.out.println(hospital.getName() + "mmmmmmmmmmm");
 		hospitalService.registerHospital(hospital);
 		System.out.println(hospital.getName());
-		return new ModelAndView("listGreetings", "hospital",hospital);
+		return new ModelAndView("apiKeys", "hospital",hospital);
 	}
+	
+	@GetMapping(value = "/report")
+	public ResponseEntity<String> report() throws Exception {
+		hospitalService.whenDownloadFileUsingSshj_thenSuccess();
+		return ResponseEntity.ok().build();
+	}
+	
+	
 		
 }
